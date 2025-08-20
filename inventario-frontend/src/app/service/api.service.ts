@@ -15,8 +15,8 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  encryptAndSaveToStorage(key: string, value: String):void {
-    const encryptedValue = CryptoJs.AES.encrypt(value, Api.ENCRYPTION_KEY).toString();
+  encryptAndSaveToStorage(key: string, value: string): void {
+    const encryptedValue = CryptoJs.AES.encrypt(value, ApiService.ENCRYPTION_KEY).toString();
     localStorage.setItem(key, encryptedValue);
   }
 
@@ -24,7 +24,7 @@ export class ApiService {
     try {
       const encryptedValue = localStorage.getItem(key);
       if (!encryptedValue) return null;
-      return CryptoJs.AES.decrypt(encryptedValue, Api.ENCRYPTION_KEY).toString(CryptoJs.enc.Utf8);
+      return CryptoJs.AES.decrypt(encryptedValue, ApiService.ENCRYPTION_KEY).toString(CryptoJs.enc.Utf8);
     } catch (error) {
       return null;
     }
@@ -53,7 +53,7 @@ export class ApiService {
   }
 
   isAdmin():boolean{
-    const token = this.getFromStorageAndDecrypt('role');
+    const role = this.getFromStorageAndDecrypt('role');
     return role === "ADMIN";
   }
 
